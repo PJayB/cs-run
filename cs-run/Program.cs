@@ -23,6 +23,7 @@ namespace cs_run
             public string Script = string.Empty;
             public string EntryClass = "Program";
             public string EntryMethod = "Main";
+            public string CompilerOptions = string.Empty;
 
             public IEnumerable<string> References { get { return _references; } }
 
@@ -45,7 +46,8 @@ namespace cs_run
                 parameters.IncludeDebugInformation = false;
                 parameters.WarningLevel = WarningLevel;
                 parameters.TreatWarningsAsErrors = WarningsAsErrors;
-                
+                parameters.CompilerOptions = CompilerOptions;
+
                 foreach (var referenceName in _references)
                 {
                     parameters.ReferencedAssemblies.Add(referenceName);
@@ -217,6 +219,10 @@ namespace cs_run
                     throw new Exception("Warning level expects a valid integer.");
                 }
             }
+            else if (arg == "//c")
+            {
+                session.CompilerOptions = value + " ";
+            }
         }
 
         class ShowHelpException : Exception {}
@@ -253,11 +259,6 @@ namespace cs_run
             
             // Link the session to to local assemblies
             compileSession.AddLocalReferences();
-
-#if DEBUG
-            foreach (var i in compileSession.References)
-                Console.WriteLine(i);
-#endif
 
             // Open the input file (which is the script file)
             try
@@ -298,7 +299,7 @@ namespace cs_run
             }
             catch (ShowHelpException)
             {
-                Console.WriteLine("Usage: cs-run [//NoWarningsAsErrors] [//WarningLevel:<val>] [//NoPartialMatchWarning] [//EntryPoint:<Class>.<Method>] [//Ref:<Reference>] <filename.cs> [Script arguments...]");
+                Console.WriteLine("Usage: cs-run [//NoWarningsAsErrors] [//WarningLevel:<val>] [//NoPartialMatchWarning] [//EntryPoint:<Class>.<Method>] [\"//Ref:<Reference>\"] [\"//C:<compiler options>\"] <filename.cs> [Script arguments...]");
             }
             catch (Exception ex)
             {
