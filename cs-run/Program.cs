@@ -237,6 +237,11 @@ namespace cs_run
 
             CompileSession compileSession = new CompileSession();
 
+            // Add the default references
+            compileSession.AddReference("System");
+            compileSession.AddReference("System.Core");
+            compileSession.AddReference("Microsoft.CSharp");
+
             // Process the local arguments
             int argumentIndex = 0;
             while (argumentIndex < args.Length && args[argumentIndex].StartsWith("//"))
