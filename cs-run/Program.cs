@@ -16,7 +16,7 @@ namespace cs_run
         {
             private List<string> _references = new List<string>();
 
-            public bool WarnOnPartialMatch = true;
+            public bool WarnOnPartialMatch = false;
             public bool WarningsAsErrors = true;
             public int WarningLevel = 4;
             
@@ -204,9 +204,9 @@ namespace cs_run
             {
                 SetEntryPoint(value, session);
             }
-            else if (arg == "//nopartialmatchwarning")
+            else if (arg == "//partialmatchwarning")
             {
-                session.WarnOnPartialMatch = false;
+                session.WarnOnPartialMatch = true;
             }
             else if (arg == "//nowarningsaserrors")
             {
@@ -299,7 +299,7 @@ namespace cs_run
             }
             catch (ShowHelpException)
             {
-                Console.WriteLine("Usage: cs-run [//NoWarningsAsErrors] [//WarningLevel:<val>] [//NoPartialMatchWarning] [//EntryPoint:<Class>.<Method>] [\"//Ref:<Reference>\"] [\"//C:<compiler options>\"] <filename.cs> [Script arguments...]");
+                Console.WriteLine("Usage: cs-run [//NoWarningsAsErrors] [//WarningLevel:<val>] [//PartialMatchWarning] [//EntryPoint:<Class>.<Method>] [\"//Ref:<Reference>\"] [\"//C:<compiler options>\"] <filename.cs> [Script arguments...]");
             }
             catch (Exception ex)
             {
